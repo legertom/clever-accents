@@ -1,26 +1,130 @@
 @import "tailwindcss";
 
+@theme {
+  /* Clever brand palette — pulled directly from the V4 General Template */
+  --color-clever-blue: #1464ff;
+  --color-clever-navy: #0a1e46;
+  --color-clever-sky: #daebff;
+  --color-clever-orange: #f78239;
+  --color-clever-sun: #ffe478;
+  --color-clever-mint: #4ecc97;
+  --color-clever-ink: #1c1c1c;
+  --color-clever-paper: #ffffff;
+  --color-clever-muted: #666666;
+  --color-clever-faint: #b7b7b7;
+
+  --font-serif: var(--font-merriweather), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light only;
+  --background: var(--color-clever-paper);
+  --foreground: var(--color-clever-ink);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
+html, body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* The big character display — for lessons */
+.char-hero {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-feature-settings: "lnum";
+  letter-spacing: -0.04em;
+}
+
+/* Animated underline used sparingly per brand guidance */
+.brand-underline {
+  background-image: linear-gradient(transparent 60%, color-mix(in oklab, var(--color-clever-sun) 80%, white) 60%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 0 0.1em;
+}
+
+/* Soft drop for cards */
+.card-soft {
+  box-shadow: 0 1px 0 rgba(10, 30, 70, 0.04), 0 12px 32px -16px rgba(10, 30, 70, 0.18);
+}
+
+/* Keyboard cap visual */
+.keycap {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: 0.55rem;
+  border: 1px solid #d6dde9;
+  border-bottom-width: 3px;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f6fb 100%);
+  color: var(--color-clever-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.04);
+  user-select: none;
+}
+.keycap[data-pressed="true"] {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  background: linear-gradient(180deg, #daebff 0%, #c1dafd 100%);
+  border-color: #9cc2ff;
+}
+.keycap-plus {
+  display: inline-block;
+  margin: 0 0.4rem;
+  color: var(--color-clever-faint);
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes pop {
+  0% { transform: scale(0.92); opacity: 0; }
+  60% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop { animation: pop 260ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+.shake { animation: shake 320ms ease both; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 420ms ease both; }
+
+/* Focus ring tuned to brand */
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--color-clever-blue) 60%, white);
+  outline-offset: 2px;
+  border-radius: 0.4rem;
+}
+
+input.typer {
+  font-family: var(--font-serif);
+  font-feature-settings: "lnum";
+  letter-spacing: 0.01em;
+}
+
+/* The hex motif from the Clever template, used as a decorative background flourish */
+.hex-dot {
+  width: 0.75rem;
+  height: 0.85rem;
+  display: inline-block;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }

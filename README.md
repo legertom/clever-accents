@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Clever Accents
 
-## Getting Started
+A friendly typing tutor that teaches Clever support agents to type the
+~50 most common accented characters they'll encounter in names from
+around the world. Mavis-Beacon energy, on-brand for Clever.
 
-First, run the development server:
+Designed for use on macOS.
+
+## What's in the box
+
+- **12 lessons** grouped by accent type (acute, grave, umlaut, tilde,
+  circumflex, cedilla & eszett, Nordic, Czech háček, Polish, Hungarian,
+  Turkish, Icelandic).
+- Each lesson runs three phases: **Meet** the characters → **Drill** the
+  keystrokes → type real **Words & Names**.
+- **Mixed Practice** mode uses a five-box Leitner spaced-repetition
+  ladder — weakest characters resurface most often.
+- All progress is stored in the browser's `localStorage`. Nothing leaves
+  the device, so the app is happy on the Vercel Hobby plan with zero
+  serverless functions.
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Lint, typecheck, build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build   # also runs tsc via Next's build pipeline
+```
 
-## Learn More
+The build is fully static — every route prerenders to HTML.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy to Vercel (Hobby plan)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push this repo to GitHub.
+2. From <https://vercel.com/new>, import the repo. Next.js is detected
+   automatically.
+3. No environment variables are required.
+4. Hit **Deploy**. Subsequent pushes redeploy automatically.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+There are no API routes, no databases, and no third-party services, so
+this fits comfortably under the Hobby plan's limits.
 
-## Deploy on Vercel
+## Brand notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Colours and type are pulled directly from `Clever_General_Template_V4`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Primary blue `#1464FF`, navy `#0A1E46`, sky `#DAEBFF`, orange
+  `#F78239`, sun `#FFE478`, mint `#4ECC97`, ink `#1C1C1C`.
+- Headings in **Merriweather** (Google Fonts), body in **Inter**.
+- Backgrounds are white or light-blue. Underlines are reserved for
+  emphasis per the brand guide.
+
+## File map
+
+```
+app/
+  layout.tsx               root layout, font loading
+  globals.css              brand tokens, animations, keycaps
+  page.tsx                 home / lesson hub
+  about/page.tsx           "about" page
+  practice/page.tsx        mixed practice route
+  lesson/[id]/page.tsx     dynamic lesson route (SSG'd at build time)
+  components/
+    BrandHeader.tsx
+    Footer.tsx
+    CharBadge.tsx
+    KeyHint.tsx            mac keycap visualizer
+    LessonGrid.tsx
+    ProgressChip.tsx
+    LessonRunner.tsx       Meet → Drill → Words → Done
+    PracticeRunner.tsx     adaptive drill + Leitner ladder
+lib/
+  chars.ts                 the 50 characters + lesson definitions
+  words.ts                 real names/words per lesson
+  progress.ts              localStorage-backed Leitner store
+  useSyncProgress.ts       hook that re-renders on progress updates
+```
