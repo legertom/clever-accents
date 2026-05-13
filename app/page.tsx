@@ -50,8 +50,8 @@ function Hero() {
           </span>
         </div>
         <h1 className="char-hero text-[52px] sm:text-[80px] leading-[0.98] tracking-[-0.025em] max-w-4xl">
-          Type every student&apos;s name{" "}
-          <span className="brand-underline">like you mean it.</span>
+          Every student&apos;s name,{" "}
+          <span className="brand-underline">spelled the way it&apos;s said.</span>
         </h1>
         <p className="prose-soft mt-8 max-w-2xl text-[19px] sm:text-[21px] text-clever-ink/85">
           Clever is going global, which means more José, Müller, Wałęsa, and
